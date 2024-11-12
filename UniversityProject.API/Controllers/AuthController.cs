@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using UniversityProject.Application.Abstraction.AuthServices;
 using UniversityProject.Domain.Entities.Auth;
@@ -13,34 +14,30 @@ namespace UniversityProject.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        
         private readonly IAuthService  _authService;
         private readonly DataContext _context;
         private readonly IWebHostEnvironment _env;
 
-        public AuthController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IAuthService authService, DataContext context, IWebHostEnvironment env)
+        public AuthController(IAuthService authService, DataContext context, IWebHostEnvironment env)
         {
-            _userManager = userManager;
-            _roleManager = roleManager;
             _authService = authService;
             _context = context;
             _env = env;
         }
 
-
         [HttpPost("SignUp")]
         public async Task<IActionResult> Register(RegisterDTO register)
         {
 
-            var email = await _userManager.FindByEmailAsync(register.Email);
+            var email = await _context.Users.FirstOrDefaultAsync(x=>x.Email==register.Email);
             if (email != null)
             {
                 return Ok("Registrdan otilgan");
             }
 
             var files = register.Picture;
-            var path = Path.Combine(_env.WebRootPath + "UserImage");
+            var path = Path.Combine(_env.WebRootPath + "/UserImage");
             var fileName = "";
 
 
@@ -67,17 +64,23 @@ namespace UniversityProject.API.Controllers
                 Password= register.Password,
                 Email = register.Email,
                 PhoneNumber=register.PhoneNumer,
-                Created_at= DateTime.Now,
-                Is_deleted= false,
-                country_id=register.country_id,
+                Created_at= DateTime.UtcNow,
+                Deleted_at= DateTime.UtcNow,
+              
                 PictureUrl=fileName,
                 Role = "User",
 
 
             };
 
+            await _context.Users.AddAsync(appUser);
+            await _context.SaveChangesAsync();
 
-            var user = await _userManager.CreateAsync(appUser, register.Password);
+            return Ok("Succesfully");
+
+
+
+            /*var user = await _userManager.CreateAsync(appUser, register.Password);
             if (user.Succeeded)
             {
                 if (!await _roleManager.RoleExistsAsync("User"))
@@ -93,7 +96,7 @@ namespace UniversityProject.API.Controllers
             else
             {
                 return BadRequest("now work");
-            }
+            }*/
 
 
 
@@ -101,7 +104,7 @@ namespace UniversityProject.API.Controllers
 
 
 
-        [HttpPost("SignIn")]
+       /* [HttpPost("SignIn")]
         public async Task<IActionResult> Login(LoginDTO login)
         {
 
@@ -134,7 +137,7 @@ namespace UniversityProject.API.Controllers
 
         }
 
-
+*/
 
 
 

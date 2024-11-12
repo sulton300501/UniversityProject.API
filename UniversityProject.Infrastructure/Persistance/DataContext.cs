@@ -10,12 +10,13 @@ using UniversityProject.Domain.Entities.Auth;
 
 namespace UniversityProject.Infrastructure.Persistance
 {
-    public class DataContext : IdentityDbContext<ApplicationUser>
+    public class DataContext : DbContext
     {
 
         public DataContext(DbContextOptions<DataContext> options):base(options) { }
       
 
+        public DbSet<ApplicationUser> Users { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<Category> Categories { get; set; }

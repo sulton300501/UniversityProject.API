@@ -17,7 +17,7 @@ namespace UniversityProject.Domain.Entities
        
         public string? PictureUrl { get; set; }
 
-        public List<Book> Books { get; set; }
+       
 
 
     }

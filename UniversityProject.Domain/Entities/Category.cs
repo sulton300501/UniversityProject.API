@@ -13,7 +13,7 @@ namespace UniversityProject.Domain.Entities
         public int Count { get; set; }
         public DateTime Created_at { get; set; }
         public DateTime? Is_deleted { get; set; }
-        public List<Book> Books { get; set; }
+       
 
     }
 }

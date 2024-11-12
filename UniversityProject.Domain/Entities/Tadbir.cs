@@ -12,7 +12,7 @@ namespace UniversityProject.Domain.Entities
         public string Name { get; set; }
         public string PictureUrl { get; set; }
         public DateTime Created_at { get; set; }
-        public bool Is_deleted { get; set; }
+        public DateTime? Is_deleted { get; set; }
         public string Description { get; set; }
         public DateTime Date {  get; set; }
 

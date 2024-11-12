@@ -17,8 +17,8 @@ namespace UniversityProject.Domain.Entities.Auth
         public string Email { get; set; }
         public DateTime Created_at {  get; set; }
         public DateTime? Deleted_at {  get; set; }
-        public int country_id { get; set; }
-        public Country Country { get; set; }
+      
+        
         public string? PictureUrl { get; set; }
         public string Role { get; set; }
 
