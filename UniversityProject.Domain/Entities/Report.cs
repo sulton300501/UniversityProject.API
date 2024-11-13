@@ -14,6 +14,8 @@ namespace UniversityProject.Domain.Entities
         public string Description { get; set;}
         public DateTime Created_at { get; set; }
         public bool Is_deleted { get; set; }
+        public int user_id { get; set; }
+        public  ApplicationUser User { get; set; }
        
 
 

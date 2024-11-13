@@ -12,8 +12,8 @@ using UniversityProject.Infrastructure.Persistance;
 namespace UniversityProject.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241112190512_sulll")]
-    partial class sulll
+    [Migration("20241113140947_telefonjssssssjjk")]
+    partial class telefonjssssssjjk
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,7 +62,12 @@ namespace UniversityProject.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("country_id")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("country_id");
 
                     b.ToTable("Users");
                 });
@@ -95,7 +100,13 @@ namespace UniversityProject.Infrastructure.Migrations
                     b.Property<string>("Year")
                         .HasColumnType("text");
 
+                    b.Property<int>("country_id")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("country_id")
+                        .IsUnique();
 
                     b.ToTable("Authors");
                 });
@@ -139,7 +150,22 @@ namespace UniversityProject.Infrastructure.Migrations
                     b.Property<int>("Year")
                         .HasColumnType("integer");
 
+                    b.Property<int>("author_id")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("category_id")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("countr_id")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("author_id");
+
+                    b.HasIndex("category_id");
+
+                    b.HasIndex("countr_id");
 
                     b.ToTable("Books");
                 });
@@ -196,34 +222,7 @@ namespace UniversityProject.Infrastructure.Migrations
                     b.ToTable("Countries");
                 });
 
-            modelBuilder.Entity("UniversityProject.Domain.Entities.Report", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Created_at")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("Is_deleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Page_name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Reports");
-                });
-
-            modelBuilder.Entity("UniversityProject.Domain.Entities.Tadbir", b =>
+            modelBuilder.Entity("UniversityProject.Domain.Entities.Event", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -255,6 +254,117 @@ namespace UniversityProject.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tadbirs");
+                });
+
+            modelBuilder.Entity("UniversityProject.Domain.Entities.Report", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Created_at")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("Is_deleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Page_name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("user_id")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("user_id")
+                        .IsUnique();
+
+                    b.ToTable("Reports");
+                });
+
+            modelBuilder.Entity("UniversityProject.Domain.Entities.Auth.ApplicationUser", b =>
+                {
+                    b.HasOne("UniversityProject.Domain.Entities.Country", "Country")
+                        .WithMany("User")
+                        .HasForeignKey("country_id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Country");
+                });
+
+            modelBuilder.Entity("UniversityProject.Domain.Entities.Author", b =>
+                {
+                    b.HasOne("UniversityProject.Domain.Entities.Country", "Country")
+                        .WithOne("Author")
+                        .HasForeignKey("UniversityProject.Domain.Entities.Author", "country_id");
+
+                    b.Navigation("Country");
+                });
+
+            modelBuilder.Entity("UniversityProject.Domain.Entities.Book", b =>
+                {
+                    b.HasOne("UniversityProject.Domain.Entities.Author", "Author")
+                        .WithMany("Books")
+                        .HasForeignKey("author_id");
+
+                    b.HasOne("UniversityProject.Domain.Entities.Category", "Category")
+                        .WithMany("Books")
+                        .HasForeignKey("category_id");
+
+                    b.HasOne("UniversityProject.Domain.Entities.Country", "Country")
+                        .WithMany("Books")
+                        .HasForeignKey("countr_id");
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Country");
+                });
+
+            modelBuilder.Entity("UniversityProject.Domain.Entities.Report", b =>
+                {
+                    b.HasOne("UniversityProject.Domain.Entities.Auth.ApplicationUser", "User")
+                        .WithOne("Report")
+                        .HasForeignKey("UniversityProject.Domain.Entities.Report", "user_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("UniversityProject.Domain.Entities.Auth.ApplicationUser", b =>
+                {
+                    b.Navigation("Report")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("UniversityProject.Domain.Entities.Author", b =>
+                {
+                    b.Navigation("Books");
+                });
+
+            modelBuilder.Entity("UniversityProject.Domain.Entities.Category", b =>
+                {
+                    b.Navigation("Books");
+                });
+
+            modelBuilder.Entity("UniversityProject.Domain.Entities.Country", b =>
+                {
+                    b.Navigation("Author")
+                        .IsRequired();
+
+                    b.Navigation("Books");
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

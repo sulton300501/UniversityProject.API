@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UniversityProject.Domain.Entities
 {
-    public class Tadbir
+    public class Event
     {
         public int Id { get; set; }
         public string Name { get; set; }

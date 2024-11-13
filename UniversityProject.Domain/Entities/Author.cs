@@ -16,8 +16,10 @@ namespace UniversityProject.Domain.Entities
         public DateTime? Is_deleted { get; set; }
        
         public string? PictureUrl { get; set; }
+        public int country_id { get; set; }
+        public Country Country { get; set; }
 
-       
+       public ICollection<Book> Books { get; set; }
 
 
     }

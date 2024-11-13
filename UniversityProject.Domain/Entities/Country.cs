@@ -15,7 +15,10 @@ namespace UniversityProject.Domain.Entities
         public int Count { get; set; }
         public DateTime Created_at { get; set; }
         public bool Is_deleted { get; set; }
+        public ICollection<Book> Books { get; set;}
+        public Author Author { get; set; }
        
+        public ICollection<ApplicationUser> User { get; set; }
        
      
     }
