@@ -22,7 +22,7 @@ namespace UniversityProject.Infrastructure.Persistance
         public DbSet<Category> Categories { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Report> Reports { get; set; }
-        public DbSet<Event> Tadbirs { get; set; }
+        public DbSet<Event> Events { get; set; }
 
 
 

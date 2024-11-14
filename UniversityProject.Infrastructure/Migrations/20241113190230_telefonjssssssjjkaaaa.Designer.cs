@@ -12,8 +12,8 @@ using UniversityProject.Infrastructure.Persistance;
 namespace UniversityProject.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241113140947_telefonjssssssjjk")]
-    partial class telefonjssssssjjk
+    [Migration("20241113190230_telefonjssssssjjkaaaa")]
+    partial class telefonjssssssjjkaaaa
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -87,12 +87,12 @@ namespace UniversityProject.Infrastructure.Migrations
                     b.Property<DateTime>("Created_at")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTime?>("Deleted_at")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Full_name")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<DateTime?>("Is_deleted")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("PictureUrl")
                         .HasColumnType("text");
@@ -125,12 +125,12 @@ namespace UniversityProject.Infrastructure.Migrations
                     b.Property<DateTime>("Created_at")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTime?>("Deleted_at")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<DateTime?>("Is_deleted")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("Length")
                         .HasColumnType("integer");
@@ -184,7 +184,7 @@ namespace UniversityProject.Infrastructure.Migrations
                     b.Property<DateTime>("Created_at")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("Is_deleted")
+                    b.Property<DateTime?>("Deleted_at")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
@@ -210,8 +210,8 @@ namespace UniversityProject.Infrastructure.Migrations
                     b.Property<DateTime>("Created_at")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("Is_deleted")
-                        .HasColumnType("boolean");
+                    b.Property<DateTime?>("Deleted_at")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -236,12 +236,12 @@ namespace UniversityProject.Infrastructure.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTime?>("Deleted_at")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<DateTime?>("Is_deleted")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -267,12 +267,12 @@ namespace UniversityProject.Infrastructure.Migrations
                     b.Property<DateTime>("Created_at")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTime?>("Deleted_at")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<bool>("Is_deleted")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("Page_name")
                         .IsRequired()

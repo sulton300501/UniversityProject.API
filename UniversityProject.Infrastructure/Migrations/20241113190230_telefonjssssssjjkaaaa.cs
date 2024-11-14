@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace UniversityProject.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class telefonjssssssjjk : Migration
+    public partial class telefonjssssssjjkaaaa : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,7 +21,7 @@ namespace UniversityProject.Infrastructure.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     Count = table.Column<int>(type: "integer", nullable: false),
                     Created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Is_deleted = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    Deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -37,7 +37,7 @@ namespace UniversityProject.Infrastructure.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     Count = table.Column<int>(type: "integer", nullable: false),
                     Created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Is_deleted = table.Column<bool>(type: "boolean", nullable: false)
+                    Deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -53,7 +53,7 @@ namespace UniversityProject.Infrastructure.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     PictureUrl = table.Column<string>(type: "text", nullable: false),
                     Created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Is_deleted = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    Deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     Description = table.Column<string>(type: "text", nullable: false),
                     Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
@@ -72,7 +72,7 @@ namespace UniversityProject.Infrastructure.Migrations
                     Year = table.Column<string>(type: "text", nullable: true),
                     Bio_wikipediya = table.Column<string>(type: "text", nullable: false),
                     Created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Is_deleted = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    Deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     PictureUrl = table.Column<string>(type: "text", nullable: true),
                     country_id = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -128,7 +128,7 @@ namespace UniversityProject.Infrastructure.Migrations
                     Description = table.Column<string>(type: "text", nullable: false),
                     Length = table.Column<int>(type: "integer", nullable: false),
                     Created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Is_deleted = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    Deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     PictureUrl = table.Column<string>(type: "text", nullable: false),
                     Count = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -161,7 +161,7 @@ namespace UniversityProject.Infrastructure.Migrations
                     Page_name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     Created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Is_deleted = table.Column<bool>(type: "boolean", nullable: false),
+                    Deleted_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     user_id = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>

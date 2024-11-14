@@ -25,7 +25,7 @@ namespace UniversityProject.Domain.Entities
         public string Description { get; set; }
         public int Length { get; set; }
         public DateTime Created_at { get; set; }
-        public DateTime? Is_deleted { get; set; }
+        public DateTime? Deleted_at { get; set; }
         public string PictureUrl { get; set; }
 
      

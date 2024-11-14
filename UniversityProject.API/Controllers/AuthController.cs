@@ -47,6 +47,7 @@ namespace UniversityProject.API.Controllers
                 Debug.WriteLine("Create");
             }
 
+           
 
             fileName = Guid.NewGuid().ToString() + "UserImage" + files.FileName;
             var filePath = Path.Combine(path, fileName);

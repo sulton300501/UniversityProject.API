@@ -13,7 +13,7 @@ namespace UniversityProject.Domain.Entities
         public string? Year { get; set; }
         public string Bio_wikipediya { get; set; }
         public DateTime Created_at { get; set; }
-        public DateTime? Is_deleted { get; set; }
+        public DateTime? Deleted_at { get; set; }
        
         public string? PictureUrl { get; set; }
         public int country_id { get; set; }
