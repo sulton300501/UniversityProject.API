@@ -22,7 +22,7 @@ namespace UniversityProject.API.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> createAuthor(CreateCountryCommand command, CancellationToken cancellation)
+        public async Task<IActionResult> createCountry(CreateCountryCommand command, CancellationToken cancellation)
         {
             var result = await _mediatr.Send(command, cancellation);
             return Ok(result);
@@ -30,7 +30,7 @@ namespace UniversityProject.API.Controllers
 
 
         [HttpDelete]
-        public async Task<IActionResult> deleteAuthor(DeleteCountryCommand command, CancellationToken cancellation)
+        public async Task<IActionResult> deleteCountry(DeleteCountryCommand command, CancellationToken cancellation)
         {
             var result = await _mediatr.Send(command, cancellation);
             return Ok(result);
@@ -38,16 +38,25 @@ namespace UniversityProject.API.Controllers
 
 
         [HttpPut]
-        public async Task<IActionResult> updateAuthor(UpdateCountryCommand command, CancellationToken cancellation)
+        public async Task<IActionResult> updateCountry(UpdateCountryCommand command, CancellationToken cancellation)
         {
             var result = await _mediatr.Send(command, cancellation);
             return Ok(result);
         }
 
         [HttpGet]
-        public async Task<IActionResult> getAllAuthor( CancellationToken cancellation)
+        public async Task<IActionResult> getAllCountry( CancellationToken cancellation)
         {
             var data = new GetAllCountryCommand();
+            var result = await _mediatr.Send(data, cancellation);
+            return Ok(result);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> getAllPersonCountry(CancellationToken cancellation)
+        {
+            var data = new GetAllCountryPersonCommand();
             var result = await _mediatr.Send(data, cancellation);
             return Ok(result);
         }

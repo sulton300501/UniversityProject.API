@@ -23,28 +23,28 @@ namespace UniversityProject.API.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> createAuthor(CreateCategoryCommand command, CancellationToken cancellation)
+        public async Task<IActionResult> createCategory(CreateCategoryCommand command, CancellationToken cancellation)
         {
             var result = await _mediator.Send(command, cancellation);
             return Ok(result);
         }
 
         [HttpPut]
-        public async Task<IActionResult> updateAuthor(UpdateCategoryCommand commad, CancellationToken cancellation)
+        public async Task<IActionResult> updateCategory(UpdateCategoryCommand commad, CancellationToken cancellation)
         {
             var result = await _mediator.Send(commad, cancellation);
             return Ok(result);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> deleteAuthor(DeleteCategoryCommand command, CancellationToken cancellation)
+        public async Task<IActionResult> deleteCategory(DeleteCategoryCommand command, CancellationToken cancellation)
         {
             var result = await _mediator.Send(command, cancellation);
             return Ok(result);
         }
 
         [HttpGet]
-        public async Task<IActionResult> getALlAuthor(CancellationToken cancellation)
+        public async Task<IActionResult> getALlCategory(CancellationToken cancellation)
         {
             var data = new GetAllCategoryCommand();
             var result = await _mediator.Send(data, cancellation);
