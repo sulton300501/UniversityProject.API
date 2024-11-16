@@ -12,7 +12,7 @@ using UniversityProject.Infrastructure.Persistance;
 namespace UniversityProject.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241116091639_kkkk")]
+    [Migration("20241116094943_kkkk")]
     partial class kkkk
     {
         /// <inheritdoc />

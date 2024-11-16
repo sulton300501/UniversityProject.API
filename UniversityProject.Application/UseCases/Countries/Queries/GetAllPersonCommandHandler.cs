@@ -22,7 +22,7 @@ namespace UniversityProject.Application.UseCases.Countries.Queries
         public async Task<List<ApplicationUser>> Handle(GetAllCountryPersonCommand request, CancellationToken cancellationToken)
         {
 
-            var result = await _context.Countries.SelectMany(x => x.User).ToListAsync();
+            var result = await _context.Countries.Include(x => x.User).SelectMany(x=>x.User).ToListAsync(cancellationToken);
             return result;
 
 

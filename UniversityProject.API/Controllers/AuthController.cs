@@ -67,7 +67,7 @@ namespace UniversityProject.API.Controllers
                 PhoneNumber=register.PhoneNumer,
                 Created_at= DateTime.UtcNow,
                 Deleted_at= null,
-              
+                country_id=register.country_id,
                 PictureUrl=fileName,
                 Role = "User",
 
