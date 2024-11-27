@@ -8,7 +8,7 @@ namespace UniversityProject.Domain.Entities.DTOs
 {
     public class LoginDTO
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public string Email { get; set; } = "coderr819@gmail.com";
+        public string Password { get; set; } = "qwerty12345";
     }
 }

@@ -81,11 +81,12 @@ namespace UniversityProject.API
                 // JWT autentifikatsiya
                 c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
                 {
-                    Description = "JWT Authorization header. Example: 'Bearer {token}'",
                     Name = "Authorization",
-                    In = Microsoft.OpenApi.Models.ParameterLocation.Header,
                     Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
-                    Scheme = "Bearer"
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+                    Description = "Enter 'Bearer' [space] and then your token."
                 });
 
                 c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
@@ -101,6 +102,26 @@ namespace UniversityProject.API
                         },
                         Array.Empty<string>()
                     }
+                });
+                
+                // Add BasePath configuration
+
+                c.AddServer(new Microsoft.OpenApi.Models.OpenApiServer
+                {
+                    Url = "http://localhost:5142", // Lokal server URL
+                    Description = "Local Development Server"
+                });
+                
+                c.AddServer(new Microsoft.OpenApi.Models.OpenApiServer
+                {
+                    Url = "https://api.example.com", // O'zingizning base URL ni kiriting
+                    Description = "Production Server"
+                });
+
+                c.AddServer(new Microsoft.OpenApi.Models.OpenApiServer
+                {
+                    Url = "https://staging-api.example.com", // Staging server uchun
+                    Description = "Staging Server"
                 });
                 
                 // Annotatsiyalarni yoqish

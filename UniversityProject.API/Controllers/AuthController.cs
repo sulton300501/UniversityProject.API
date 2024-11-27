@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 using Microsoft.AspNetCore.Identity;
 using UniversityProject.Application.Abstraction.AuthServices;
 using UniversityProject.Domain.Entities.Auth;
@@ -9,7 +8,7 @@ using UniversityProject.Infrastructure.Persistance;
 
 namespace UniversityProject.API.Controllers
 {
-    [ApiExplorerSettings(GroupName = "Authentication")]
+    [ApiExplorerSettings(GroupName = "Authentication")] // Guruh nomi
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class AuthController : ControllerBase
@@ -24,18 +23,16 @@ namespace UniversityProject.API.Controllers
             _context = context;
             _env = env;
         }
-        
+
         /// <summary>
         /// Registers a new user.
         /// </summary>
-        /// <param name="register">Registration details.</param>
-        /// <returns>Success or error message.</returns>
+        /// <param name="register">User registration details.</param>
+        /// <returns>A success or error message.</returns>
         [HttpPost("SignUp")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status409Conflict)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(string),StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Register(RegisterDTO register)
         {
             // Check if the email already exists
@@ -92,7 +89,15 @@ namespace UniversityProject.API.Controllers
             return Created("", "User registered successfully.");
         }
 
+        /// <summary>
+        /// Logs in a user and returns a JWT token.
+        /// </summary>
+        /// <param name="login">Login details.</param>
+        /// <returns>A JWT token or an error message.</returns>
         [HttpPost("SignIn")]
+        [ProducesResponseType(typeof(string),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string),StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(string),StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Login(LoginDTO login)
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == login.Email);
@@ -109,10 +114,18 @@ namespace UniversityProject.API.Controllers
             }
 
             var token = await _authService.GenerateToken(user);
-            return Ok(new { Token = token });
+            return Ok(token ?? "Token is not generated.");
         }
 
+        /// <summary>
+        /// Changes the user's email address.
+        /// </summary>
+        /// <param name="emailDTO">Details for email change.</param>
+        /// <returns>A success or error message.</returns>
         [HttpPost("ChangeEmail")]
+        [ProducesResponseType(typeof(string),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string),StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string),StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ChangeEmail(ChangeEmailDTO emailDTO)
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == emailDTO.CurrentEmail);
@@ -133,7 +146,16 @@ namespace UniversityProject.API.Controllers
             return Ok("Email updated successfully.");
         }
 
+        /// <summary>
+        /// Changes the user's password.
+        /// </summary>
+        /// <param name="changePasswordDto">Details for password change.</param>
+        /// <returns>A success or error message.</returns>
         [HttpPost("ChangePassword")]
+        [ProducesResponseType(typeof(string),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string),StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string),StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(string),StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ChangePassword(ChangerPasswordDTO changePasswordDto)
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == changePasswordDto.Email);
