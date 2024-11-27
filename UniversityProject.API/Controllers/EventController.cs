@@ -8,6 +8,7 @@ using UniversityProject.Application.UseCases.Eventies.Queries;
 
 namespace UniversityProject.API.Controllers
 {
+    [ApiExplorerSettings(GroupName = "Main")]
     [Route("api/[controller]")]
     [ApiController]
     public class EventController : ControllerBase

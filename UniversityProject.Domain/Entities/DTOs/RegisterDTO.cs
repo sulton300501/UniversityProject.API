@@ -10,10 +10,10 @@ namespace UniversityProject.Domain.Entities.DTOs
     public class RegisterDTO
     {
 
-        public string Full_name { get; set; }
-        public string PhoneNumer { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public string Full_name { get; set; } = "John Doe";
+        public string PhoneNumer { get; set; } = "+998901234567";
+        public string Email { get; set; } = "SecurePassword123";
+        public string Password { get; set; } = "SecurePassword123";
         public int country_id { get; set; }
         public IFormFile? Picture { get; set; }
     }

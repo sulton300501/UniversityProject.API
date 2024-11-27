@@ -6,6 +6,7 @@ using UniversityProject.Application.UseCases.Authorses.Queries;
 
 namespace UniversityProject.API.Controllers
 {
+    [ApiExplorerSettings(GroupName = "Main")]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class AuthorController : ControllerBase

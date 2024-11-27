@@ -8,6 +8,7 @@ using UniversityProject.Application.UseCases.Books.Queries;
 
 namespace UniversityProject.API.Controllers
 {
+    [ApiExplorerSettings(GroupName = "Main")]
     [Route("api/[controller]")]
     [ApiController]
     public class BookController : ControllerBase

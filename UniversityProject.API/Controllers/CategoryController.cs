@@ -8,6 +8,7 @@ using UniversityProject.Application.UseCases.Categories.Queries;
 
 namespace UniversityProject.API.Controllers
 {
+    [ApiExplorerSettings(GroupName = "Main")]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoryController : ControllerBase

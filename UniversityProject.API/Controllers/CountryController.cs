@@ -7,6 +7,7 @@ using UniversityProject.Application.UseCases.Countries.Queries;
 
 namespace UniversityProject.API.Controllers
 {
+    [ApiExplorerSettings(GroupName = "Main")]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class CountryController : ControllerBase
