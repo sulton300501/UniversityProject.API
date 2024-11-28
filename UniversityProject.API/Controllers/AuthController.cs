@@ -33,7 +33,7 @@ namespace UniversityProject.API.Controllers
         [ProducesResponseType(typeof(string),StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status409Conflict)]
-        public async Task<IActionResult> Register(RegisterDTO register)
+        public async Task<IActionResult> Register([FromForm] RegisterDTO register)
         {
             // Check if the email already exists
             var existingUser = await _context.Users.FirstOrDefaultAsync(x => x.Email == register.Email);
