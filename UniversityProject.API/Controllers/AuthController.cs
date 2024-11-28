@@ -67,7 +67,7 @@ namespace UniversityProject.API.Controllers
             await _context.Users.AddAsync(appUser);
             await _context.SaveChangesAsync();
 
-            return Created("", "User registered successfully.");
+            return Created("", new { message = "User registered successfully." });
         }
 
         /// <summary>
