@@ -46,8 +46,6 @@ namespace UniversityProject.Application.Abstraction.AuthServices
                 expires: DateTime.UtcNow.AddMinutes(expirePeriod),
                 signingCredentials: creditials);
 
-
-
             return await Task.FromResult(new JwtSecurityTokenHandler().WriteToken(token));
 
         }
