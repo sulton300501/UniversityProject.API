@@ -10,7 +10,7 @@ namespace UniversityProject.API.Controllers
 {
     [ApiController]
     [ApiExplorerSettings(GroupName = "Authentication")] // API hujjatlash guruhi
-    [Route("api/[controller]/[action]")]
+    [Route("api")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
@@ -34,7 +34,7 @@ namespace UniversityProject.API.Controllers
         /// Agar muvaffaqiyatli bo'lsa, foydalanuvchini ro'yxatdan o'tkazadi. 
         /// Konflikt bo'lsa, email oldin ro'yxatdan o'tganligini bildiradi.
         /// </returns>
-        [HttpPost("SignUp")]
+        [HttpPost("Register")]
         [ProducesResponseType(typeof(string), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status409Conflict)]
@@ -80,7 +80,7 @@ namespace UniversityProject.API.Controllers
         /// Agar muvaffaqiyatli bo'lsa, JWT token qaytaradi. 
         /// Aks holda, noto'g'ri email yoki parolni bildiradi.
         /// </returns>
-        [HttpPost("SignIn")]
+        [HttpPost("Login")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
