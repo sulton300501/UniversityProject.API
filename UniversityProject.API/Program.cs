@@ -114,7 +114,7 @@ namespace UniversityProject.API
                 
                 c.AddServer(new Microsoft.OpenApi.Models.OpenApiServer
                 {
-                    Url = "https://api.example.com", // O'zingizning base URL ni kiriting
+                    Url = "https://app.tohirjon.uz", // O'zingizning base URL ni kiriting
                     Description = "Production Server"
                 });
 
