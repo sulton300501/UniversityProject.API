@@ -34,7 +34,7 @@ namespace UniversityProject.API.Controllers
         /// Agar muvaffaqiyatli bo'lsa, foydalanuvchini ro'yxatdan o'tkazadi. 
         /// Konflikt bo'lsa, email oldin ro'yxatdan o'tganligini bildiradi.
         /// </returns>
-        [HttpPost("Register")]
+        [HttpPost("register")]
         [ProducesResponseType(typeof(string), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status409Conflict)]
@@ -80,7 +80,7 @@ namespace UniversityProject.API.Controllers
         /// Agar muvaffaqiyatli bo'lsa, JWT token qaytaradi. 
         /// Aks holda, noto'g'ri email yoki parolni bildiradi.
         /// </returns>
-        [HttpPost("Login")]
+        [HttpPost("login")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
@@ -108,7 +108,7 @@ namespace UniversityProject.API.Controllers
         /// Muvaffaqiyatli bo'lsa, email o'zgartiriladi. 
         /// Aks holda, foydalanuvchi topilmagani yoki yangi email bir xil ekanligi bildiriladi.
         /// </returns>
-        [HttpPost("ChangeEmail")]
+        [HttpPost("change-email")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
@@ -137,7 +137,7 @@ namespace UniversityProject.API.Controllers
         /// Muvaffaqiyatli bo'lsa, parol o'zgartiriladi. 
         /// Aks holda, noto'g'ri parol yoki yangi parol eski parolga teng ekanligi bildiriladi.
         /// </returns>
-        [HttpPost("ChangePassword")]
+        [HttpPost("change-password")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
