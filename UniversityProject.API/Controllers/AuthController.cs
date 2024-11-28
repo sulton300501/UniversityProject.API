@@ -96,7 +96,7 @@ namespace UniversityProject.API.Controllers
                 return Unauthorized("Password is incorrect.");
 
             var token = await _authService.GenerateToken(user);
-            return token != null ? Ok(token) : BadRequest("Token generation failed.");
+            return token != null ? Ok(new {token}) : BadRequest("Token generation failed.");
         }
 
         /// <summary>
@@ -125,9 +125,9 @@ namespace UniversityProject.API.Controllers
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
 
-            return Ok("Email updated successfully.");
+            return Ok(new { message = "Email updated successfully."});
         }
-
+    
         /// <summary>
         /// Changes the user's password.
         /// Foydalanuvchi mavjud parolni yangi parolga o'zgartirish uchun ishlatiladi.
@@ -160,7 +160,7 @@ namespace UniversityProject.API.Controllers
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
 
-            return Ok("Password updated successfully.");
+            return Ok(new {message = "Password updated successfully."});
         }
 
         /// <summary>
