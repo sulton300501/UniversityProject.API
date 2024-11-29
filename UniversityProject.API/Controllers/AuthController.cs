@@ -92,7 +92,7 @@ namespace UniversityProject.API.Controllers
 
             var passwordHasher = new PasswordHasher<ApplicationUser>();
             if (passwordHasher.VerifyHashedPassword(user, user.Password, login.Password) !=
-                PasswordVerificationResult.Success)
+                PasswordVerificationResult.Success) 
                 return Unauthorized("Password is incorrect.");
 
             var token = await _authService.GenerateToken(user);
