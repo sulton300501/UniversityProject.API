@@ -14,9 +14,9 @@ namespace UniversityProject.Application.UseCases.Books.Commands
         public int BookId { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
-        public int Category_id { get; set; }
-        public int Author_id { get; set; }
-        public int Country_id { get; set; }
+        public int CategoryId { get; set; }
+        public int AuthorId { get; set; }
+        public int CountryId { get; set; }
         public int Year { get; set; }
         public string Description { get; set; }
         public int Length { get; set; }

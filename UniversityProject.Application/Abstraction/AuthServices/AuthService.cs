@@ -34,7 +34,7 @@ namespace UniversityProject.Application.Abstraction.AuthServices
                 new Claim(JwtRegisteredClaimNames.Jti , Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat , EpochTime.GetIntDate(DateTime.UtcNow).ToString(CultureInfo.InvariantCulture) , ClaimValueTypes.Integer64),
                 new Claim("UserId" , user.Id.ToString()),        
-                new Claim("UserName" , user.Full_name),
+                new Claim("UserName" , user.FullName),
                 new Claim("Email" , user.Email!),
                 new Claim("Role"  , user.Role),
             };

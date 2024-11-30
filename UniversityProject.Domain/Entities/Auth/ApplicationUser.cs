@@ -9,22 +9,18 @@ namespace UniversityProject.Domain.Entities.Auth
 {
     public class ApplicationUser 
     {
-
         public int Id {  get; set; }
-        public string Full_name { get; set; }    
+        public string FullName { get; set; }    
         public string PhoneNumber { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
-        public DateTime Created_at {  get; set; }
-        public DateTime? Deleted_at {  get; set; }
-      
-        public int country_id { get; set; }
-        public Country Country { get; set; }
+        public DateTime CreatedAt {  get; set; }
+        public DateTime? DeletedAt {  get; set; }
         public string? PictureUrl { get; set; }
         public string Role { get; set; }
-        public Report Report { get; set; }
-
-
-
+        public int CountryId { get; set; }
+        
+        public ICollection<Report> Report { get; set; }
+        public Country Country { get; set; }
     }
 }

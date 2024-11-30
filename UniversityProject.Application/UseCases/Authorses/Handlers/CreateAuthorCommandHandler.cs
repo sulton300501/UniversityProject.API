@@ -28,12 +28,12 @@ namespace UniversityProject.Application.UseCases.Authorses.Handlers
             // Muallif ma'lumotlarini yaratish
             var data = new Author()
             {
-                Full_name = request.Full_name,
-                Year = request.Year,
-                Bio_wikipediya = request.Bio_wikipediya,
-                Created_at = DateTime.UtcNow,
-                Deleted_at = null,
-                country_id = request.country_id
+                FullName = request.FullName,
+                BirthDate = request.Year,
+                BioWikipediya = request.BioWikipediya,
+                CreatedAt = DateTime.UtcNow,
+                DeletedAt = null,
+                CountryId = request.CountryId
             };
             
             // Fayl mavjudligini tekshirish

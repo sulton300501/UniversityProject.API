@@ -11,6 +11,5 @@ namespace UniversityProject.Application.UseCases.Books.Commands
     public class DeleteBookCommand : IRequest<Book>
     {
         public int BookId { get; set; }
-
     }
 }

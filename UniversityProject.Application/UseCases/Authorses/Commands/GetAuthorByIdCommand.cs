@@ -5,5 +5,5 @@ namespace UniversityProject.Application.UseCases.Authorses.Commands;
 
 public class GetAuthorByIdCommand : IRequest<Author>
 {
-    public int id { get; set; }
+    public int Id { get; set; }
 }

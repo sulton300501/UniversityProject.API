@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UniversityProject.Domain.Entities;
+using UniversityProject.Domain.Entities.Auth;
 
 namespace UniversityProject.Application.UseCases.Countries.Commands
 {
@@ -12,12 +13,7 @@ namespace UniversityProject.Application.UseCases.Countries.Commands
     {
         public int CountryId { get; set; }
         public string CountryName { get; set; }
-
         public int Count { get; set; }
-
-
-
-
-
+        public Guid ApplicationUserId { get; set; }
     }
 }

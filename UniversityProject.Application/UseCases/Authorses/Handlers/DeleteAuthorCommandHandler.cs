@@ -24,7 +24,7 @@ namespace UniversityProject.Application.UseCases.Authorses.Handlers
         public async Task<Author> Handle(DeleteAuthorCommand request, CancellationToken cancellationToken)
         {
             
-            var author = await _context.Authors.FirstOrDefaultAsync(x=>x.Id==request.id);
+            var author = await _context.Authors.FirstOrDefaultAsync(x=>x.Id==request.Id);
             if (author == null)
             {
                 throw new Exception("Not found");

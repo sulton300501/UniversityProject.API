@@ -40,8 +40,8 @@ namespace UniversityProject.Application.UseCases.Eventies.Handlers
             var data = new Event()
             {
                 Name = request.Name,            
-                Created_at = DateTime.UtcNow,
-                Deleted_at = null,
+                CreatedAt = DateTime.UtcNow,
+                DeletedAt = null,
                 PictureUrl = fileName,
                 Description = request.Description,
                 Date= DateTime.UtcNow

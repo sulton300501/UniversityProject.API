@@ -1,25 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UniversityProject.Domain.Entities.Auth;
+﻿using UniversityProject.Domain.Entities.Auth;
 
 namespace UniversityProject.Domain.Entities
 {
     public class Country
     {
-
         public int Id { get; set; }
         public string Name { get; set; }
         public int Count { get; set; }
-        public DateTime Created_at { get; set; }
-        public DateTime? Deleted_at { get; set; }
-        public ICollection<Book> Books { get; set;}
-        public Author Author { get; set; }
-       
-        public virtual ICollection<ApplicationUser> User { get; set; }
-       
-     
+        public DateTime CreatedAt { get; set; }
+        public DateTime? DeletedAt { get; set; }
+
+        public ICollection<Author> Author { get; set; }
+        public ICollection<ApplicationUser> User { get; set; }
+        public ICollection<Book> Books { get; set; }
     }
 }

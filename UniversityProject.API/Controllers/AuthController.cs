@@ -54,11 +54,11 @@ namespace UniversityProject.API.Controllers
             var passwordHasher = new PasswordHasher<ApplicationUser>();
             var appUser = new ApplicationUser
             {
-                Full_name = register.FullName,
+                FullName = register.FullName,
                 Email = register.Email,
                 PhoneNumber = register.PhoneNumer,
-                Created_at = DateTime.UtcNow,
-                country_id = (int)register.CountryId,
+                CreatedAt = DateTime.UtcNow,
+                CountryId = (int)register.CountryId,
                 PictureUrl = fileName,
                 Role = "User",
                 Password = passwordHasher.HashPassword(null, register.Password)

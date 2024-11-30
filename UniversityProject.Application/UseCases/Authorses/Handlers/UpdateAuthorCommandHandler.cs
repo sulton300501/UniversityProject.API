@@ -68,13 +68,13 @@ namespace UniversityProject.Application.UseCases.Authorses.Handlers
 
             var data = new Author()
             {
-                Full_name = request.Full_name,
-                Year = request.Year,
-                Bio_wikipediya = request.Bio_wikipediya,
-                Created_at = DateTime.UtcNow,
-                Deleted_at = null,
+                FullName = request.FullName,
+                BirthDate = request.Year,
+                BioWikipediya = request.BioWikipediya,
+                CreatedAt = DateTime.UtcNow,
+                DeletedAt = null,
                 PictureUrl = fileName,
-                country_id = request.country_id
+                CountryId = request.CountryId
 
             };
 

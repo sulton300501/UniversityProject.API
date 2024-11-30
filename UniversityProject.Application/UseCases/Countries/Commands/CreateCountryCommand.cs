@@ -11,7 +11,6 @@ namespace UniversityProject.Application.UseCases.Countries.Commands
     public class CreateCountryCommand : IRequest<Country>
     {
         public string CountryName { get; set; }
-
         public int Count { get; set; }
     }
 }

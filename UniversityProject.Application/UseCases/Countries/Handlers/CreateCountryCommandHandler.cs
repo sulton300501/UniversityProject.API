@@ -26,8 +26,8 @@ namespace UniversityProject.Application.UseCases.Countries.Handlers
             {
                 Name = request.CountryName,
                 Count = request.Count,
-                Created_at = DateTime.UtcNow,
-                Deleted_at = null,
+                CreatedAt = DateTime.UtcNow,
+                DeletedAt = null,
 
 
             };

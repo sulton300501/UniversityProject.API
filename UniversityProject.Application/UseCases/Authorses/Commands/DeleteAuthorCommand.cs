@@ -10,6 +10,6 @@ namespace UniversityProject.Application.UseCases.Authorses.Commands
 {
     public class DeleteAuthorCommand : IRequest<Author>
     {
-        public int id { get; set; }
+        public int Id { get; set; }
     }
 }

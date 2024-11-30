@@ -11,8 +11,8 @@ namespace UniversityProject.Application.UseCases.Reports.Commands
     public class UpdateReportsCommand : IRequest<Report>
     {
         public int ReportsId { get; set; }
-        public string Page_name { get; set; }
+        public string PageName { get; set; }
         public string Description { get; set; }
-        public int user_id { get; set; }
+        public int ApplicationUserId { get; set; }
     }
 }

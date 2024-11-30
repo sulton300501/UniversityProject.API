@@ -10,8 +10,6 @@ namespace UniversityProject.Application.UseCases.Eventies.Commands
 {
     public class DeleteEventCommand : IRequest<Event>
     {
-
         public int EventId { get; set; }
-
     }
 }
