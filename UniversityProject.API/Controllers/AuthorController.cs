@@ -1,4 +1,4 @@
-﻿using MediatR;
+﻿    using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using UniversityProject.Application.UseCases.Authorses.Commands;
@@ -9,15 +9,9 @@ namespace UniversityProject.API.Controllers
     [ApiExplorerSettings(GroupName = "Main")] // Swagger guruhi nomi
     [Route("api")]
     [ApiController]
-    public class AuthorController : ControllerBase
+    public class AuthorController(IMediator mediator)
+        : ControllerBase
     {
-        private readonly IMediator _mediator;
-
-        public AuthorController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
-
         /// <summary>
         /// Creates a new author.
         /// Ushbu endpoint yangi muallif qo'shish uchun ishlatiladi.
@@ -38,7 +32,7 @@ namespace UniversityProject.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateAuthor([FromForm]CreateAuthorCommands command, CancellationToken cancellation)
         {
-            var result = await _mediator.Send(command, cancellation);
+            var result = await mediator.Send(command, cancellation);
             return Ok(result);
         }
 
@@ -62,7 +56,7 @@ namespace UniversityProject.API.Controllers
         [ProducesResponseType(typeof(string),StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateAuthor(UpdateAuthorCommand command, CancellationToken cancellation)
         {
-            var result = await _mediator.Send(command, cancellation);
+            var result = await mediator.Send(command, cancellation);
             return Ok(result);
         }
 
@@ -86,7 +80,7 @@ namespace UniversityProject.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteAuthor(DeleteAuthorCommand command, CancellationToken cancellation)
         {
-            var result = await _mediator.Send(command, cancellation);
+            var result = await mediator.Send(command, cancellation);
             return Ok(result);
         }
 
@@ -107,7 +101,7 @@ namespace UniversityProject.API.Controllers
         public async Task<IActionResult> GetALlAuthor(CancellationToken cancellation)
         {
             var data = new GetAllAuthorCommand();
-            var result = await _mediator.Send(data, cancellation);
+            var result = await mediator.Send(data, cancellation);
             return Ok(result);
         }
         
@@ -131,7 +125,7 @@ namespace UniversityProject.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAuthorById(GetAuthorByIdCommand id, CancellationToken cancellation)
         {
-            var result = await _mediator.Send(id, cancellation);
+            var result = await mediator.Send(id, cancellation);
             return Ok(result);
         }
     }

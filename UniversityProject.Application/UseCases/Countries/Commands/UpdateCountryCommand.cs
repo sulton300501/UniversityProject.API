@@ -12,8 +12,7 @@ namespace UniversityProject.Application.UseCases.Countries.Commands
     public class UpdateCountryCommand : IRequest<Country>
     {
         public int CountryId { get; set; }
-        public string CountryName { get; set; }
+        public string? CountryName { get; set; }
         public int Count { get; set; }
-        public Guid ApplicationUserId { get; set; }
     }
 }
