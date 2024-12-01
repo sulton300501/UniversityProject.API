@@ -21,7 +21,9 @@ namespace UniversityProject.Application.UseCases.Categories.Queries
 
         public async Task<List<Category>> Handle(GetAllCategoryCommand request, CancellationToken cancellationToken)
         {
-            var data = await _context.Categories.ToListAsync(cancellationToken);
+            var data = await _context.Categories
+                .Include(a=> a.Books)
+                .ToListAsync(cancellationToken);
             return data;
         }
     }

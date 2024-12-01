@@ -22,11 +22,11 @@ namespace UniversityProject.Application.UseCases.Authorses.Queries
 
         public async Task<List<Author>> Handle(GetAllAuthorCommand request, CancellationToken cancellationToken)
         {
-
-
-            var data = await _context.Authors.ToListAsync();
+            var data = await _context.Authors
+                .Include(a => a.Books)
+                .Include(a => a.Country)
+                .ToListAsync();
             return data;
-
         }
     }
 }

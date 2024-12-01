@@ -17,7 +17,11 @@ namespace UniversityProject.Application.UseCases.Countries.Queries
             Handle(GetAllCountryCommand request, CancellationToken cancellationToken)
         {
             return await context.Countries
-                .OrderBy(x => x.Name).ToListAsync(cancellationToken);
+                .Include(a => a.Books)
+                .Include(a => a.User)
+                .Include(a => a.Author)
+                .OrderBy(x => x.Name)
+                .ToListAsync(cancellationToken);
         }
     }
 }

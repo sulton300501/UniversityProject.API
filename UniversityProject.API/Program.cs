@@ -128,6 +128,11 @@ namespace UniversityProject.API
                 c.EnableAnnotations();
             });
 
+            builder.Logging.ClearProviders();
+            builder.Logging.AddConsole(options =>
+            {
+                options.LogToStandardErrorThreshold = LogLevel.Warning; // Faqat Warning va undan yuqori loglar ko‘rsatiladi
+            });
 
             // Add custom services
             builder.Services.AddInfrastructure(builder.Configuration);
