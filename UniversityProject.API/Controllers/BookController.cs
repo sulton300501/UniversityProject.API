@@ -11,36 +11,26 @@ namespace UniversityProject.API.Controllers
     [ApiExplorerSettings(GroupName = "Main")]
     [Route("api/[controller]")]
     [ApiController]
-    public class BookController : ControllerBase
+    public class BookController(IMediator mediator) : ControllerBase
     {
-        private readonly IMediator _mediator;
-
-        public BookController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
-
-
-
-
         [HttpPost]
-        public async Task<IActionResult> createBook(CreateBookCommand command, CancellationToken cancellation)
+        public async Task<IActionResult> createBook([FromForm]CreateBookCommand command, CancellationToken cancellation)
         {
-            var result = await _mediator.Send(command, cancellation);
+            var result = await mediator.Send(command, cancellation);
             return Ok(result);
         }
 
         [HttpPut]
         public async Task<IActionResult> updateBook(UpdateBookCommand commad, CancellationToken cancellation)
         {
-            var result = await _mediator.Send(commad, cancellation);
+            var result = await mediator.Send(commad, cancellation);
             return Ok(result);
         }
 
         [HttpDelete]
         public async Task<IActionResult> deleteBook(DeleteBookCommand command, CancellationToken cancellation)
         {
-            var result = await _mediator.Send(command, cancellation);
+            var result = await mediator.Send(command, cancellation);
             return Ok(result);
         }
 
@@ -48,13 +38,8 @@ namespace UniversityProject.API.Controllers
         public async Task<IActionResult> getALlBook(CancellationToken cancellation)
         {
             var data = new GetAllBooksCommand();
-            var result = await _mediator.Send(data, cancellation);
+            var result = await mediator.Send(data, cancellation);
             return Ok(result);
         }
-
-
-
-
-
     }
 }
