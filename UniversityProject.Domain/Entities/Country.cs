@@ -9,6 +9,8 @@ namespace UniversityProject.Domain.Entities
         public string Name { get; set; }
         public int? Count { get; set; }
         public DateTime CreatedAt { get; set; }
+        
+        [JsonIgnore]
         public DateTime? DeletedAt { get; set; }
 
         // Circular reference muammosini oldini olish uchun:

@@ -1,4 +1,6 @@
-﻿namespace UniversityProject.Domain.Entities
+﻿using System.Text.Json.Serialization;
+
+namespace UniversityProject.Domain.Entities
 {
     public class Book
     {
@@ -9,6 +11,7 @@
         public string Description { get; set; }
         public int Length { get; set; }
         public DateTime CreatedAt { get; set; }
+        [JsonIgnore]
         public DateTime? DeletedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public string PictureUrl { get; set; }

@@ -1,15 +1,15 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using UniversityProject.Application.UseCases.Users.Commands;
-using UniversityProject.Domain.Entities.Auth;
+using UniversityProject.Domain.Entities.DTOs;
 using UniversityProject.Infrastructure.Persistance;
 
 namespace UniversityProject.Application.UseCases.Users.Queries
 {
     public class GetUserByIdCommandHandler(DataContext context)
-        : IRequestHandler<GetUserByIdCommand, ApplicationUser>
+        : IRequestHandler<GetUserByIdCommand, UserDTO>
     {
-        public Task<ApplicationUser> Handle(GetUserByIdCommand request, CancellationToken cancellationToken)
+        public Task<UserDTO> Handle(GetUserByIdCommand request, CancellationToken cancellationToken)
         {
             var user = context.Users
                 .Include(a => a.Report)
@@ -19,7 +19,19 @@ namespace UniversityProject.Application.UseCases.Users.Queries
             if (user == null)
                 throw new Exception("Not found!");
 
-            return Task.FromResult(user);
+            var newData = new UserDTO
+            {
+                Id = user.Id,
+                FullName = user.FullName,
+                PhoneNumber = user.PhoneNumber,
+                PictureUrl = user.PictureUrl,
+                Email = user.Email,
+                CreatedAt = user.CreatedAt,
+                Report = user.Report,
+                Country = user.Country,
+            };
+
+            return Task.FromResult(newData);
         }
     }
 }

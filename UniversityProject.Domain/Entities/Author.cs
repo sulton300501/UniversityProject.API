@@ -1,4 +1,6 @@
-﻿namespace UniversityProject.Domain.Entities
+﻿using System.Text.Json.Serialization;
+
+namespace UniversityProject.Domain.Entities
 {
     public class Author
     {
@@ -8,6 +10,7 @@
         public string BioWikipediya { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        [JsonIgnore]
         public DateTime? DeletedAt { get; set; }
         public string? PictureUrl { get; set; }
         public int CountryId { get; set; }

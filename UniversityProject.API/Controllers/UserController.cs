@@ -47,14 +47,14 @@ public class UserController(IMediator mediator) : ControllerBase
     /// Muvaffaqiyatli bo'lsa, yangilangan ma'lumotlarni qaytaradi.
     /// Aks holda, xatolik xabarini qaytaradi.
     /// </returns>
-    [HttpPut("user/{id}")]
+    [HttpPut("user")]
     [SwaggerOperation(
         Summary = "Foydalanuvchi yangilash",
         Description = "Yangilangan foydalanuvchi ma'lumotlarini JSON ko'rinishida yuboring."
     )]
     [ProducesResponseType(typeof(string),StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string),StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> UpdateUser(UpdateUserCommand command, CancellationToken cancellation)
+    public async Task<IActionResult> UpdateUser([FromForm]UpdateUserCommand command, CancellationToken cancellation)
     {
         return Ok(await mediator.Send(command, cancellation));
     }

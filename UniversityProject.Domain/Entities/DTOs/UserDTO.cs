@@ -8,7 +8,6 @@ public class UserDTO
     public string Email { get; set; }
     public DateTime CreatedAt {  get; set; }
     public string? PictureUrl { get; set; }
-    public int CountryId { get; set; }
         
     public ICollection<Report> Report { get; set; }
     public Country Country { get; set; }
