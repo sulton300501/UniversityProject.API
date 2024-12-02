@@ -1,8 +1,5 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using UniversityProject.Application.UseCases.Authorses.Commands;
-using UniversityProject.Application.UseCases.Authorses.Queries;
 using UniversityProject.Application.UseCases.Categories.Commands;
 using UniversityProject.Application.UseCases.Categories.Queries;
 

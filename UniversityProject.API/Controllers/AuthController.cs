@@ -11,19 +11,10 @@ namespace UniversityProject.API.Controllers
     [ApiController]
     [ApiExplorerSettings(GroupName = "Authentication")] // API hujjatlash guruhi
     [Route("api")]
-    public class AuthController : ControllerBase
+    public class AuthController(
+        IAuthService authService, DataContext context, 
+        IWebHostEnvironment env) : ControllerBase
     {
-        private readonly IAuthService _authService;
-        private readonly DataContext _context;
-        private readonly IWebHostEnvironment _env;
-
-        public AuthController(IAuthService authService, DataContext context, IWebHostEnvironment env)
-        {
-            _authService = authService;
-            _context = context;
-            _env = env;
-        }
-
         /// <summary>
         /// Registers a new user.
         /// Ushbu endpoint yangi foydalanuvchini ro'yxatdan o'tkazish uchun ishlatiladi. 
@@ -40,7 +31,7 @@ namespace UniversityProject.API.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Register([FromForm] RegisterDTO register)
         {
-            if (await _context.Users.AnyAsync(x => x.Email == register.Email))
+            if (await context.Users.AnyAsync(x => x.Email == register.Email))
                 return Conflict("This email is already registered.");
 
             string fileName = null;
@@ -64,8 +55,8 @@ namespace UniversityProject.API.Controllers
                 Password = passwordHasher.HashPassword(null, register.Password)
             };
 
-            await _context.Users.AddAsync(appUser);
-            await _context.SaveChangesAsync();
+            await context.Users.AddAsync(appUser);
+            await context.SaveChangesAsync();
 
             return Created("", new { message = "User registered successfully." });
         }
@@ -86,7 +77,7 @@ namespace UniversityProject.API.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Login(LoginDTO login)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == login.Email);
+            var user = await context.Users.FirstOrDefaultAsync(x => x.Email == login.Email);
             if (user == null)
                 return NotFound("Email is not registered.");
 
@@ -95,7 +86,7 @@ namespace UniversityProject.API.Controllers
                 PasswordVerificationResult.Success) 
                 return Unauthorized("Password is incorrect.");
 
-            var token = await _authService.GenerateToken(user);
+            var token = await authService.GenerateToken(user);
             return token != null ? Ok(new {token}) : BadRequest("Token generation failed.");
         }
 
@@ -114,7 +105,7 @@ namespace UniversityProject.API.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ChangeEmail(ChangeEmailDTO emailDTO)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == emailDTO.CurrentEmail);
+            var user = await context.Users.FirstOrDefaultAsync(x => x.Email == emailDTO.CurrentEmail);
             if (user == null)
                 return NotFound("Current email not found.");
 
@@ -122,8 +113,8 @@ namespace UniversityProject.API.Controllers
                 return BadRequest("New email cannot be the same as the current email.");
 
             user.Email = emailDTO.NewEmail;
-            _context.Users.Update(user);
-            await _context.SaveChangesAsync();
+            context.Users.Update(user);
+            await context.SaveChangesAsync();
 
             return Ok(new { message = "Email updated successfully."});
         }
@@ -144,7 +135,7 @@ namespace UniversityProject.API.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ChangePassword(ChangerPasswordDTO changePasswordDto)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == changePasswordDto.Email);
+            var user = await context.Users.FirstOrDefaultAsync(x => x.Email == changePasswordDto.Email);
             if (user == null)
                 return NotFound("User not found.");
 
@@ -157,8 +148,8 @@ namespace UniversityProject.API.Controllers
                 return BadRequest("New password cannot be the same as the current password.");
 
             user.Password = passwordHasher.HashPassword(user, changePasswordDto.NewPassword);
-            _context.Users.Update(user);
-            await _context.SaveChangesAsync();
+            context.Users.Update(user);
+            await context.SaveChangesAsync();
 
             return Ok(new {message = "Password updated successfully."});
         }
@@ -180,7 +171,7 @@ namespace UniversityProject.API.Controllers
             if (!validExtensions.Contains(fileExtension))
                 return null;
 
-            var path = Path.Combine(_env.WebRootPath, "UserImage");
+            var path = Path.Combine(env.WebRootPath, "UserImage");
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
 
