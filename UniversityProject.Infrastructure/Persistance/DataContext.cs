@@ -53,12 +53,6 @@ namespace UniversityProject.Infrastructure.Persistance
                 .HasForeignKey(b => b.CategoryId) // Foreign key
                 .OnDelete(DeleteBehavior.SetNull); // O'chirish cheklovi
 
-            // **Book -> Category** (Many-to-Many)
-            // modelBuilder.Entity<Book>()
-                // .HasMany(b => b.Category)
-                // .WithMany(c => c.Books)
-                // .UsingEntity(j => j.ToTable("BookCategories")); // O‘rta jadval nomi
-
             // **Author -> Country** (Many-to-One)
             modelBuilder.Entity<Author>()
                 .HasOne(a => a.Country)

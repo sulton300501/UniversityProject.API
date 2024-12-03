@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -44,26 +45,31 @@ namespace UniversityProject.API
 
         private static void ConfigureServices(WebApplicationBuilder builder)
         {
-            builder.Services.AddControllers();
+            builder.Services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
+                });
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SchemaFilter<SwaggerExampleSchemaFilter>();
                 
                 // API haqida ma'lumot
-                c.SwaggerDoc("Main", new Microsoft.OpenApi.Models.OpenApiInfo
+                c.SwaggerDoc("Main", new OpenApiInfo
                 {
                     Title = "MOI.Book online library API",
                     Version = "v1",
                     Description = "MOI.Book online library API provides endpoints for managing the application.",
                     TermsOfService = new Uri("https://example.com/terms"),
-                    Contact = new Microsoft.OpenApi.Models.OpenApiContact
+                    Contact = new OpenApiContact
                     {
                         Name = "Support Team",
                         Email = "tohirjon.software@gmail.com",
                         Url = new Uri("https://support.universityproject.com")
                     },
-                    License = new Microsoft.OpenApi.Models.OpenApiLicense
+                    License = new OpenApiLicense
                     {
                         Name = "MIT License",
                         Url = new Uri("https://opensource.org/licenses/MIT")
@@ -71,7 +77,7 @@ namespace UniversityProject.API
                 });
                 
                 // Authentication gruppasini qo'shing
-                c.SwaggerDoc("Authentication", new Microsoft.OpenApi.Models.OpenApiInfo
+                c.SwaggerDoc("Authentication", new OpenApiInfo
                 {
                     Title = "Authentication API",
                     Version = "v1",
@@ -79,24 +85,24 @@ namespace UniversityProject.API
                 });
 
                 // JWT autentifikatsiya
-                c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
-                    Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+                    Type = SecuritySchemeType.Http,
                     Scheme = "Bearer",
                     BearerFormat = "JWT",
-                    In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+                    In = ParameterLocation.Header,
                     Description = "Enter 'Bearer' [space] and then your token."
                 });
 
-                c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
-                        new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                        new OpenApiSecurityScheme
                         {
-                            Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                            Reference = new OpenApiReference
                             {
-                                Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                                Type = ReferenceType.SecurityScheme,
                                 Id = "Bearer"
                             }
                         },
@@ -106,23 +112,26 @@ namespace UniversityProject.API
                 
                 // Add BasePath configuration
 
-                c.AddServer(new Microsoft.OpenApi.Models.OpenApiServer
+                c.AddServer(new OpenApiServer
                 {
                     Url = "http://localhost:5142", // Lokal server URL
                     Description = "Local Development Server"
                 });
                 
-                c.AddServer(new Microsoft.OpenApi.Models.OpenApiServer
+                c.AddServer(new OpenApiServer
                 {
                     Url = "https://app.tohirjon.uz", // O'zingizning base URL ni kiriting
                     Description = "Production Server"
                 });
 
-                c.AddServer(new Microsoft.OpenApi.Models.OpenApiServer
+                c.AddServer(new OpenApiServer
                 {
                     Url = "https://staging-api.example.com", // Staging server uchun
                     Description = "Staging Server"
                 });
+                
+                // CamelCase qilish uchun
+                c.CustomSchemaIds(type => type.Name.Substring(0, 1).ToLower() + type.Name.Substring(1));
                 
                 // Annotatsiyalarni yoqish
                 c.EnableAnnotations();

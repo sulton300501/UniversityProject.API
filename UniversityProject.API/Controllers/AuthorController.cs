@@ -28,8 +28,8 @@ namespace UniversityProject.API.Controllers
             Summary = "Muallif qo'shish",
             Description = "Yangi muallif ma'lumotlarini JSON ko'rinishida yuboring."
         )]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(string),StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateAuthor([FromForm]CreateAuthorCommands command, CancellationToken cancellation)
         {
             var result = await mediator.Send(command, cancellation);

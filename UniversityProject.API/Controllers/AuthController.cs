@@ -34,7 +34,7 @@ namespace UniversityProject.API.Controllers
             if (await context.Users.AnyAsync(x => x.Email == register.Email))
                 return Conflict("This email is already registered.");
 
-            string fileName = null;
+            string? fileName = null;
             if (register.Picture != null)
             {
                 fileName = await SaveFile(register.Picture);
@@ -49,10 +49,10 @@ namespace UniversityProject.API.Controllers
                 Email = register.Email,
                 PhoneNumber = register.PhoneNumer,
                 CreatedAt = DateTime.UtcNow,
-                CountryId = (int)register.CountryId,
+                CountryId = (int)register.CountryId!,
                 PictureUrl = fileName,
                 Role = "User",
-                Password = passwordHasher.HashPassword(null, register.Password)
+                Password = passwordHasher.HashPassword(null!, register.Password)
             };
 
             await context.Users.AddAsync(appUser);
@@ -87,14 +87,14 @@ namespace UniversityProject.API.Controllers
                 return Unauthorized("Password is incorrect.");
 
             var token = await authService.GenerateToken(user);
-            return token != null ? Ok(new {token}) : BadRequest("Token generation failed.");
+            return Ok(new {token});
         }
 
         /// <summary>
         /// Changes the user's email.
         /// Foydalanuvchi mavjud emailni yangi emailga o'zgartirish uchun ishlatiladi.
         /// </summary>
-        /// <param name="emailDTO">Emailni o'zgartirish uchun ma'lumotlar</param>
+        /// <param name="emailDto">Emailni o'zgartirish uchun ma'lumotlar</param>
         /// <returns>
         /// Muvaffaqiyatli bo'lsa, email o'zgartiriladi. 
         /// Aks holda, foydalanuvchi topilmagani yoki yangi email bir xil ekanligi bildiriladi.
@@ -103,16 +103,16 @@ namespace UniversityProject.API.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> ChangeEmail(ChangeEmailDTO emailDTO)
+        public async Task<IActionResult> ChangeEmail(ChangeEmailDTO emailDto)
         {
-            var user = await context.Users.FirstOrDefaultAsync(x => x.Email == emailDTO.CurrentEmail);
+            var user = await context.Users.FirstOrDefaultAsync(x => x.Email == emailDto.CurrentEmail);
             if (user == null)
                 return NotFound("Current email not found.");
 
-            if (user.Email == emailDTO.NewEmail)
+            if (user.Email == emailDto.NewEmail)
                 return BadRequest("New email cannot be the same as the current email.");
 
-            user.Email = emailDTO.NewEmail;
+            user.Email = emailDto.NewEmail;
             context.Users.Update(user);
             await context.SaveChangesAsync();
 
@@ -163,7 +163,7 @@ namespace UniversityProject.API.Controllers
         /// Muvaffaqiyatli bo'lsa, fayl nomini qaytaradi.
         /// Aks holda, null qaytaradi.
         /// </returns>
-        private async Task<string> SaveFile(IFormFile file)
+        private async Task<string?> SaveFile(IFormFile file)
         {
             var validExtensions = new[] { ".jpg", ".png", ".jpeg" };
             var fileExtension = Path.GetExtension(file.FileName).ToLower();
@@ -177,10 +177,8 @@ namespace UniversityProject.API.Controllers
 
             var fileName = $"{Guid.NewGuid()}-{Path.GetFileName(file.FileName)}";
             var filePath = Path.Combine(path, fileName);
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
+            await using var stream = new FileStream(filePath, FileMode.Create);
+            await file.CopyToAsync(stream);
 
             return fileName;
         }
