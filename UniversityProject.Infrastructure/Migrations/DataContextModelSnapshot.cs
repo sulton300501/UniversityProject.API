@@ -17,7 +17,10 @@ namespace UniversityProject.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "8.0.11")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -30,17 +33,20 @@ namespace UniversityProject.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("Created_at")
+                    b.Property<int>("CountryId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("Deleted_at")
+                    b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Full_name")
+                    b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -59,12 +65,9 @@ namespace UniversityProject.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("country_id")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("country_id");
+                    b.HasIndex("CountryId");
 
                     b.ToTable("Users");
                 });
@@ -77,33 +80,33 @@ namespace UniversityProject.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Bio_wikipediya")
-                        .IsRequired()
+                    b.Property<string>("BioWikipediya")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("Created_at")
+                    b.Property<string>("BirthDate")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("CountryId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("Deleted_at")
+                    b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Full_name")
-                        .IsRequired()
+                    b.Property<string>("FullName")
                         .HasColumnType("text");
 
                     b.Property<string>("PictureUrl")
                         .HasColumnType("text");
 
-                    b.Property<string>("Year")
-                        .HasColumnType("text");
-
-                    b.Property<int>("country_id")
-                        .HasColumnType("integer");
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("country_id")
-                        .IsUnique();
+                    b.HasIndex("CountryId");
 
                     b.ToTable("Authors");
                 });
@@ -116,20 +119,28 @@ namespace UniversityProject.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Count")
+                    b.Property<int?>("AuthorId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("Created_at")
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("Count")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("CountryId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("Deleted_at")
+                    b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Length")
+                    b.Property<int?>("Length")
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
@@ -141,28 +152,21 @@ namespace UniversityProject.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Type")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Year")
-                        .HasColumnType("integer");
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("author_id")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("category_id")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("countr_id")
+                    b.Property<int?>("Year")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("author_id");
+                    b.HasIndex("AuthorId");
 
-                    b.HasIndex("category_id");
+                    b.HasIndex("CategoryId");
 
-                    b.HasIndex("countr_id");
+                    b.HasIndex("CountryId");
 
                     b.ToTable("Books");
                 });
@@ -178,10 +182,10 @@ namespace UniversityProject.Infrastructure.Migrations
                     b.Property<int>("Count")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("Created_at")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("Deleted_at")
+                    b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
@@ -201,17 +205,16 @@ namespace UniversityProject.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Count")
+                    b.Property<int?>("Count")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("Created_at")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("Deleted_at")
+                    b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -227,13 +230,16 @@ namespace UniversityProject.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("Created_at")
+                    b.Property<int>("ApplicationUserId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("Deleted_at")
+                    b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
@@ -250,6 +256,8 @@ namespace UniversityProject.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ApplicationUserId");
+
                     b.ToTable("Events");
                 });
 
@@ -261,27 +269,31 @@ namespace UniversityProject.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("Created_at")
+                    b.Property<int>("ApplicationUserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ApplicationUserId1")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("Deleted_at")
+                    b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Page_name")
+                    b.Property<string>("PageName")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("user_id")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("user_id")
-                        .IsUnique();
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("ApplicationUserId1");
 
                     b.ToTable("Reports");
                 });
@@ -290,7 +302,7 @@ namespace UniversityProject.Infrastructure.Migrations
                 {
                     b.HasOne("UniversityProject.Domain.Entities.Country", "Country")
                         .WithMany("User")
-                        .HasForeignKey("country_id")
+                        .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -300,8 +312,9 @@ namespace UniversityProject.Infrastructure.Migrations
             modelBuilder.Entity("UniversityProject.Domain.Entities.Author", b =>
                 {
                     b.HasOne("UniversityProject.Domain.Entities.Country", "Country")
-                        .WithOne("Author")
-                        .HasForeignKey("UniversityProject.Domain.Entities.Author", "country_id");
+                        .WithMany("Author")
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Country");
                 });
@@ -310,15 +323,18 @@ namespace UniversityProject.Infrastructure.Migrations
                 {
                     b.HasOne("UniversityProject.Domain.Entities.Author", "Author")
                         .WithMany("Books")
-                        .HasForeignKey("author_id");
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("UniversityProject.Domain.Entities.Category", "Category")
                         .WithMany("Books")
-                        .HasForeignKey("category_id");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("UniversityProject.Domain.Entities.Country", "Country")
                         .WithMany("Books")
-                        .HasForeignKey("countr_id");
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Author");
 
@@ -327,21 +343,35 @@ namespace UniversityProject.Infrastructure.Migrations
                     b.Navigation("Country");
                 });
 
+            modelBuilder.Entity("UniversityProject.Domain.Entities.Event", b =>
+                {
+                    b.HasOne("UniversityProject.Domain.Entities.Auth.ApplicationUser", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CreatedBy");
+                });
+
             modelBuilder.Entity("UniversityProject.Domain.Entities.Report", b =>
                 {
                     b.HasOne("UniversityProject.Domain.Entities.Auth.ApplicationUser", "User")
-                        .WithOne("Report")
-                        .HasForeignKey("UniversityProject.Domain.Entities.Report", "user_id")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("UniversityProject.Domain.Entities.Auth.ApplicationUser", null)
+                        .WithMany("Report")
+                        .HasForeignKey("ApplicationUserId1");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("UniversityProject.Domain.Entities.Auth.ApplicationUser", b =>
                 {
-                    b.Navigation("Report")
-                        .IsRequired();
+                    b.Navigation("Report");
                 });
 
             modelBuilder.Entity("UniversityProject.Domain.Entities.Author", b =>
@@ -356,8 +386,7 @@ namespace UniversityProject.Infrastructure.Migrations
 
             modelBuilder.Entity("UniversityProject.Domain.Entities.Country", b =>
                 {
-                    b.Navigation("Author")
-                        .IsRequired();
+                    b.Navigation("Author");
 
                     b.Navigation("Books");
 

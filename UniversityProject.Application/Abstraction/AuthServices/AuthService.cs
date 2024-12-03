@@ -12,21 +12,14 @@ using UniversityProject.Domain.Entities.Auth;
 
 namespace UniversityProject.Application.Abstraction.AuthServices
 {
-    public class AuthService : IAuthService
+    public class AuthService(IConfiguration config)
+        : IAuthService
     {
-
-        private readonly IConfiguration _config;
-
-        public AuthService(IConfiguration config)
-        {
-            _config = config;
-        }
-
         public async Task<string> GenerateToken(ApplicationUser user)
         {
-            SymmetricSecurityKey security = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["jWtSettings:Secret"]!));
+            SymmetricSecurityKey security = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["jWtSettings:Secret"]!));
             SigningCredentials creditials = new SigningCredentials(security, SecurityAlgorithms.HmacSha256);
-            int expirePeriod = int.Parse(_config["JWtSettings:Expire"]!);
+            int expirePeriod = int.Parse(config["JWtSettings:Expire"]!);
 
 
             List<Claim> claims = new List<Claim>()
@@ -34,19 +27,17 @@ namespace UniversityProject.Application.Abstraction.AuthServices
                 new Claim(JwtRegisteredClaimNames.Jti , Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat , EpochTime.GetIntDate(DateTime.UtcNow).ToString(CultureInfo.InvariantCulture) , ClaimValueTypes.Integer64),
                 new Claim("UserId" , user.Id.ToString()),        
-                new Claim(ClaimTypes.Name , user.Full_name),
-                new Claim(ClaimTypes.Email , user.Email!),
-                new Claim(ClaimTypes.Role  , user.Role),
+                new Claim("UserName" , user.FullName),
+                new Claim("Email" , user.Email!),
+                new Claim("Role"  , user.Role),
             };
 
             JwtSecurityToken token = new JwtSecurityToken(
-                issuer: _config["JwtSettings:ValidIssure"],
-                audience: _config["JwtSettings:ValidAudience"],
+                issuer: config["JwtSettings:ValidIssure"],
+                audience: config["JwtSettings:ValidAudience"],
                 claims: claims,
                 expires: DateTime.UtcNow.AddMinutes(expirePeriod),
                 signingCredentials: creditials);
-
-
 
             return await Task.FromResult(new JwtSecurityTokenHandler().WriteToken(token));
 

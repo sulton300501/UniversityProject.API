@@ -1,71 +1,70 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UniversityProject.Application.UseCases.Books.Commands;
 using UniversityProject.Domain.Entities;
 using UniversityProject.Infrastructure.Persistance;
 
 namespace UniversityProject.Application.UseCases.Books.Handlers
 {
-    public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, Book>
+    public class CreateBookCommandHandler(DataContext context, IWebHostEnvironment env)
+        : IRequestHandler<CreateBookCommand, Book>
     {
-
-        private readonly DataContext _context;
-        private readonly IWebHostEnvironment _env;
-
-        public CreateBookCommandHandler(DataContext context, IWebHostEnvironment env)
-        {
-            _context = context;
-            _env = env;
-        }
-
         public async Task<Book> Handle(CreateBookCommand request, CancellationToken cancellationToken)
         {
-
-
             var files = request.Picture;
-            var path = Path.Combine(_env.WebRootPath, "BookImage");
-            var fileName = "";
 
-            fileName = Guid.NewGuid().ToString() + "BookImage" + files.FileName;
+            if (files == null || files.Length == 0)
+                throw new Exception("No file uploaded.");
+
+            var allowedExtensions = new[] 
+            { 
+                ".jpg", ".jpeg", ".png", ".gif",  // Ommabop rasm formatlari
+                ".bmp", ".svg", ".webp",          // Qo'shimcha rasm formatlari
+                ".tiff", ".tif",                  // Professional rasm formatlari
+                ".ico", ".heic", ".heif",         // Maxsus rasm formatlari
+                ".raw", ".cr2", ".nef", ".orf", ".sr2" // RAW kamera formatlari
+            };
+
+            var fileExtension = Path.GetExtension(files.FileName).ToLower();
+
+            if (!allowedExtensions.Contains(fileExtension))
+                throw new Exception("Invalid file type. Allowed types are .jpg, .jpeg, .png, .gif.");
+
+            var path = Path.Combine(env.WebRootPath, "BookImage");
+
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            var fileName = $"{Guid.NewGuid()}{fileExtension}";
             var filePath = Path.Combine(path, fileName);
-            using(var stream = new FileStream(filePath , FileMode.Create))
+
+            await using (var stream = new FileStream(filePath, FileMode.Create))
             {
-                await files.CopyToAsync(stream);
+                await files.CopyToAsync(stream, cancellationToken);
             }
 
-
-
-
-            var data = new Book()
+            var data = new Book
             {
                 Name = request.Name,
                 Type = request.Type,
-                category_id = request.Category_id,
-                author_id = request.Author_id,
-                countr_id = request.Country_id,
+                CategoryId = request.CategoryId,
+                AuthorId = request.AuthorId,
+                CountryId = request.CountryId,
                 Year = request.Year,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
                 Description = request.Description,
                 Length = request.Length,
-                Created_at = DateTime.UtcNow,
-                Deleted_at = null,
-                PictureUrl = fileName,
+                PictureUrl = "BookImage/"+fileName,
                 Count = request.Count,
+                Author = null,
+                Country = null
             };
 
-
-
-            await _context.Books.AddAsync(data);
-            await  _context.SaveChangesAsync();
+            await context.Books.AddAsync(data, cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
+            
             return data;
-
-
-
-
         }
     }
 }

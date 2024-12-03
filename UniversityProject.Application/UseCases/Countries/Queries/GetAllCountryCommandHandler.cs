@@ -10,21 +10,18 @@ using UniversityProject.Infrastructure.Persistance;
 
 namespace UniversityProject.Application.UseCases.Countries.Queries
 {
-    public class GetAllCountryCommandHandler : IRequestHandler<GetAllCountryCommand, IEnumerable<Country>>
+    public class GetAllCountryCommandHandler(DataContext context)
+        : IRequestHandler<GetAllCountryCommand, IEnumerable<Country>>
     {
-
-        private readonly DataContext _context;
-
-        public GetAllCountryCommandHandler(DataContext context)
+        public async Task<IEnumerable<Country>> 
+            Handle(GetAllCountryCommand request, CancellationToken cancellationToken)
         {
-            _context = context;
-
-        }
-        public async Task<IEnumerable<Country>> Handle(GetAllCountryCommand request, CancellationToken cancellationToken)
-        {
-            
-            var data = await _context.Countries.ToListAsync(cancellationToken);
-            return data;
+            return await context.Countries
+                // .Include(a => a.Books)
+                // .Include(a => a.User)
+                // .Include(a => a.Author)
+                .OrderBy(x => x.Name)
+                .ToListAsync(cancellationToken);
         }
     }
 }

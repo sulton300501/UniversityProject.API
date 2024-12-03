@@ -10,35 +10,20 @@ using UniversityProject.Infrastructure.Persistance;
 
 namespace UniversityProject.Application.UseCases.Countries.Handlers
 {
-    public class CreateCountryCommandHandler : IRequestHandler<CreateCountryCommand, Country>
+    public class CreateCountryCommandHandler(DataContext context)
+        : IRequestHandler<CreateCountryCommand, Country>
     {
-        private readonly DataContext _context;
-
-        public CreateCountryCommandHandler(DataContext context)
-        {
-            _context = context;
-        }
-
         public async Task<Country> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
         {
-
             var data = new Country()
             {
                 Name = request.CountryName,
-                Count = request.Count,
-                Created_at = DateTime.UtcNow,
-                Deleted_at = null,
-
-
+                CreatedAt = DateTime.UtcNow
             };
 
-            await _context.Countries.AddAsync(data);
-            await _context.SaveChangesAsync();
-
+            await context.Countries.AddAsync(data, cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
             return data;
-
-
-
         }
     }
 }

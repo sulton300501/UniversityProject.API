@@ -10,7 +10,6 @@ namespace UniversityProject.Application.UseCases.Reports.Commands
 {
     public class DeleteReportsCommand : IRequest<Report>
     {
-        public int ReportsId { get; set; }
-
+        public int ReportId { get; set; }
     }
 }

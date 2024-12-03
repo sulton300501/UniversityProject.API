@@ -10,24 +10,14 @@ using UniversityProject.Infrastructure.Persistance;
 
 namespace UniversityProject.Application.UseCases.Books.Queries
 {
-    public class GetAllBookCommandHandler : IRequestHandler<GetAllBooksCommand, List<Book>>
+    public class GetAllBookCommandHandler(DataContext context)
+        : IRequestHandler<GetAllBooksCommand, List<Book>>
     {
-
-        private readonly DataContext _context;
-
-        public GetAllBookCommandHandler(DataContext context)
-        {
-            _context = context;
-        }
-
         public async Task<List<Book>> Handle(GetAllBooksCommand request, CancellationToken cancellationToken)
         {
-
-
-            var data = await _context.Books.ToListAsync();
+            var data = await context.Books
+                .ToListAsync(cancellationToken);
             return data;
-
-
         }
     }
 }

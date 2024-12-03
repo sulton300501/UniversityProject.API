@@ -1,59 +1,90 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using UniversityProject.Application.UseCases.Authorses.Commands;
-using UniversityProject.Application.UseCases.Authorses.Queries;
+using Swashbuckle.AspNetCore.Annotations;
 using UniversityProject.Application.UseCases.Categories.Commands;
 using UniversityProject.Application.UseCases.Categories.Queries;
 
 namespace UniversityProject.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api")]
+    [ApiExplorerSettings(GroupName = "Main")]
+    [Produces("application/json")]
+    [SwaggerTag("Kategoriyalar uchun API")]
     [ApiController]
-    public class CategoryController : ControllerBase
+    public class CategoryController(IMediator mediator) : ControllerBase
     {
-
-        private readonly IMediator _mediator;
-
-        public CategoryController(IMediator mediator)
+        /// <summary>
+        ///  Kategoriya qo'shish
+        /// </summary>
+        /// <param name="categoryName"></param>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
+        [HttpPost("category/{categoryName}")]
+        [SwaggerOperation(
+            Summary = "Kategoriya qo'shish",
+            Description = "Kategoriya ma'lumotlarini JSON ko'rinishida yuboring.")
+        ]
+        [ProducesResponseType(typeof(string), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CreateCategory(string categoryName, CancellationToken cancellation)
         {
-            _mediator = mediator;
-        }
-
-
-
-        [HttpPost]
-        public async Task<IActionResult> createCategory(CreateCategoryCommand command, CancellationToken cancellation)
-        {
-            var result = await _mediator.Send(command, cancellation);
+            var result = await mediator.Send(categoryName, cancellation);
             return Ok(result);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> updateCategory(UpdateCategoryCommand commad, CancellationToken cancellation)
+        /// <summary>
+        /// Kategoriya yangilash
+        /// </summary>
+        /// <param name="commad"></param>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
+        [HttpPut("category")]
+        [SwaggerOperation(
+            Summary = "Kategoriya yangilash",
+            Description = "Kategoriya ma'lumotlarini JSON ko'rinishida yuboring.")
+        ]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateCategory(UpdateCategoryCommand commad, CancellationToken cancellation)
         {
-            var result = await _mediator.Send(commad, cancellation);
+            var result = await mediator.Send(commad, cancellation);
             return Ok(result);
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> deleteCategory(DeleteCategoryCommand command, CancellationToken cancellation)
+        /// <summary>
+        /// Kategoriya o'chirish
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <param name="cancellation"></param>
+        /// <returns>O'chirilgan data qaytadi</returns>
+        [HttpDelete("category/{categoryId}")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> DeleteCategory(int categoryId, CancellationToken cancellation)
         {
-            var result = await _mediator.Send(command, cancellation);
+            var data = new DeleteCategoryCommand
+            {
+                CategoryId = (categoryId)
+            };
+            
+            var result = await mediator.Send(data, cancellation);
             return Ok(result);
         }
 
+        /// <summary>
+        /// Barcha kategoriyalarni olish
+        /// </summary>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> getALlCategory(CancellationToken cancellation)
+        [SwaggerOperation(Summary = "Kategoriya olish", Description = "Kategoriya olish uchun hech nima talab qilinmaydi.")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetALlCategory(CancellationToken cancellation)
         {
             var data = new GetAllCategoryCommand();
-            var result = await _mediator.Send(data, cancellation);
+            var result = await mediator.Send(data, cancellation);
             return Ok(result);
         }
-
-
-
-
-
     }
 }

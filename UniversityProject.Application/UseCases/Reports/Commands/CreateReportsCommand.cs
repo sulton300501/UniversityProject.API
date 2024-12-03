@@ -10,8 +10,8 @@ namespace UniversityProject.Application.UseCases.Reports.Commands
 {
     public class CreateReportsCommand : IRequest<Report>
     {
-        public string Page_name { get; set; }
+        public string PageName { get; set; }
         public string Description { get; set; }
-        public int user_id { get; set; }    
+        public int ApplicationUserId { get; set; }    
     }
 }

@@ -1,59 +1,97 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using UniversityProject.Application.UseCases.Authorses.Commands;
-using UniversityProject.Application.UseCases.Authorses.Queries;
+using Swashbuckle.AspNetCore.Annotations;
 using UniversityProject.Application.UseCases.Books.Commands;
 using UniversityProject.Application.UseCases.Books.Queries;
+using UniversityProject.Domain.Entities;
 
 namespace UniversityProject.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/book")]
+    [Produces("application/json")]
+    [ApiExplorerSettings(GroupName = "Main")]
+    [SwaggerTag("Kitoblar bilan ishlash uchun API")]
     [ApiController]
-    public class BookController : ControllerBase
+    public class BookController(IMediator mediator) : ControllerBase
     {
-        private readonly IMediator _mediator;
-
-        public BookController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
-
-
-
-
+        /// <summary>
+        /// Kitob qo'shish
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> createBook(CreateBookCommand command, CancellationToken cancellation)
+        [SwaggerOperation
+            (Summary = "Kitob qo'shish",
+            Description = "Yangi kitob ma'lumotlarini form data ko'rinishida yuboring.")
+        ]
+        [ProducesResponseType(typeof(Book), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(string),StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CreateBook([FromForm]CreateBookCommand command, CancellationToken cancellation)
         {
-            var result = await _mediator.Send(command, cancellation);
+            var result = await mediator.Send(command, cancellation);
             return Ok(result);
         }
 
+        /// <summary>
+        /// Kitobni yangilash
+        /// </summary>
+        /// <param name="commad"></param>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
         [HttpPut]
-        public async Task<IActionResult> updateBook(UpdateBookCommand commad, CancellationToken cancellation)
+        [SwaggerOperation
+            (Summary = "Kitobni yangilash", 
+            Description = "Kitobni yangilash uchun form data ko'rinishida yuboring.")
+        ]
+        [ProducesResponseType(typeof(Book), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string),StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateBook([FromForm]UpdateBookCommand commad, CancellationToken cancellation)
         {
-            var result = await _mediator.Send(commad, cancellation);
+            var result = await mediator.Send(commad, cancellation);
             return Ok(result);
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> deleteBook(DeleteBookCommand command, CancellationToken cancellation)
+        /// <summary>
+        /// Kitobni o'chirish
+        /// </summary>
+        /// <param name="bookId">Kitob ID</param>
+        /// <param name="cancellation"></param>
+        [HttpDelete("{bookId}")]
+        [SwaggerOperation
+            (Summary = "Kitobni o'chirish",
+            Description = "Kitobni o'chirish uchun id param sifatida jo'nating.")
+        ]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string),StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> DeleteBook([FromRoute]int bookId, CancellationToken cancellation)
         {
-            var result = await _mediator.Send(command, cancellation);
+            var data = new DeleteBookCommand
+            {
+                BookId = bookId
+            };
+            
+            var result = await mediator.Send(data, cancellation);
             return Ok(result);
         }
 
+        /// <summary>
+        /// Barcha kitoblarni olish
+        /// </summary>
+        /// <param name="cancellation"></param>
+        /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> getALlBook(CancellationToken cancellation)
+        [SwaggerOperation
+            (Summary = "Kitobni olish",
+            Description = "Barcha kitoblarni olish uchun hech nima talab qilinmaydi.")
+        ]
+        [ProducesResponseType(typeof(List<Book>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string),StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetALlBook(CancellationToken cancellation)
         {
             var data = new GetAllBooksCommand();
-            var result = await _mediator.Send(data, cancellation);
+            var result = await mediator.Send(data, cancellation);
             return Ok(result);
         }
-
-
-
-
-
     }
 }

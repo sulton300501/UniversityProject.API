@@ -23,7 +23,7 @@ namespace UniversityProject.Application.UseCases.Reports.Handlers
 
         public  async Task<Report> Handle(DeleteReportsCommand request, CancellationToken cancellationToken)
         {
-            var data = await _context.Reports.FirstOrDefaultAsync(x => x.Id == request.ReportsId);
+            var data = await _context.Reports.FirstOrDefaultAsync(x => x.Id == request.ReportId);
             if (data == null)
             {
                 throw new Exception("Not found");

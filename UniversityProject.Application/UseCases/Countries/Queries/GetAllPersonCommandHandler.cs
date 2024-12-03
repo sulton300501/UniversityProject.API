@@ -10,22 +10,17 @@ using UniversityProject.Infrastructure.Persistance;
 
 namespace UniversityProject.Application.UseCases.Countries.Queries
 {
-    public class GetAllPersonCommandHandler : IRequestHandler<GetAllCountryPersonCommand, List<ApplicationUser>>
+    public class GetAllPersonCommandHandler(DataContext context)
+        : IRequestHandler<GetAllCountryPersonCommand, List<ApplicationUser>>
     {
-        private readonly DataContext _context;
-
-        public GetAllPersonCommandHandler(DataContext context)
+        public async Task<List<ApplicationUser>> 
+            Handle(GetAllCountryPersonCommand request, CancellationToken cancellationToken)
         {
-            _context = context;
-        }
-
-        public async Task<List<ApplicationUser>> Handle(GetAllCountryPersonCommand request, CancellationToken cancellationToken)
-        {
-
-            var result = await _context.Countries.Include(x => x.User).SelectMany(x=>x.User).ToListAsync(cancellationToken);
-            return result;
-
-
+            return await context.Countries
+                .Include(x => x.User)
+                .SelectMany(x=>x.User)
+                .OrderBy(a => a.Country.Count)
+                .ToListAsync(cancellationToken);
         }
     }
 }
