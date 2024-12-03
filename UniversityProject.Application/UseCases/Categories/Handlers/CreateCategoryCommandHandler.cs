@@ -18,8 +18,7 @@ namespace UniversityProject.Application.UseCases.Categories.Handlers
             var data = new Category()
             {
                 Name = request.Name,
-                Count = request.Count,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
             };
             
             await context.Categories.AddAsync(data, cancellationToken);

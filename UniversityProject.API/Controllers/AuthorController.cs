@@ -6,8 +6,10 @@ using UniversityProject.Application.UseCases.Authorses.Queries;
 
 namespace UniversityProject.API.Controllers
 {
-    [ApiExplorerSettings(GroupName = "Main")] // Swagger guruhi nomi
     [Route("api")]
+    [Produces("application/json")]
+    [ApiExplorerSettings(GroupName = "Main")] // Swagger guruhi nomi
+    [SwaggerTag("Mualliflar uchun API")]
     [ApiController]
     public class AuthorController(IMediator mediator)
         : ControllerBase
@@ -65,7 +67,7 @@ namespace UniversityProject.API.Controllers
         /// Ushbu endpoint muallifni o'chirish uchun ishlatiladi.
         /// Foydalanuvchi muallifning ID'sini yuborishi kerak.
         /// </summary>
-        /// <param name="command">Muallifni o'chirish uchun ma'lumot</param>
+        /// <param name="id">Muallifni o'chirish uchun ma'lumot</param>
         /// <param name="cancellation">So'rovni bekor qilish uchun token</param>
         /// <returns>
         /// Muvaffaqiyatli bo'lsa, muvaffaqiyatli o'chirildi xabarini qaytaradi.
@@ -78,9 +80,14 @@ namespace UniversityProject.API.Controllers
         )]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteAuthor(DeleteAuthorCommand command, CancellationToken cancellation)
+        public async Task<IActionResult> DeleteAuthor(int id, CancellationToken cancellation)
         {
-            var result = await mediator.Send(command, cancellation);
+            var data = new DeleteAuthorCommand
+            {
+                Id = id
+            };
+            
+            var result = await mediator.Send(data, cancellation);
             return Ok(result);
         }
 
@@ -123,9 +130,14 @@ namespace UniversityProject.API.Controllers
         )]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetAuthorById(GetAuthorByIdCommand id, CancellationToken cancellation)
+        public async Task<IActionResult> GetAuthorById(int id, CancellationToken cancellation)
         {
-            var result = await mediator.Send(id, cancellation);
+            var data = new GetAuthorByIdCommand
+            {
+                Id = id
+            };
+            
+            var result = await mediator.Send(data, cancellation);
             return Ok(result);
         }
     }
