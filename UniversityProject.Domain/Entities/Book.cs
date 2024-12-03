@@ -15,14 +15,16 @@ namespace UniversityProject.Domain.Entities
         public DateTime? DeletedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public string PictureUrl { get; set; }
-        public int Count { get; set; }
-        public int AuthorId { get; set; }
+        public int? Count { get; set; }
+        public int? AuthorId { get; set; }
         public int? CountryId { get; set; }
         public int? CategoryId { get; set; }
-
-        public Author Author { get; set; }
-        public Country Country { get; set; }
-        public ICollection<Category> Category { get; set; }
+        
+        public virtual Author? Author { get; set; }
+        public virtual Country? Country { get; set; }
+        
+        [JsonIgnore]
+        public virtual Category? Category { get; set; }
     }
 
 }

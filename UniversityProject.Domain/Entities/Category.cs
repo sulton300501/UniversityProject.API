@@ -11,6 +11,6 @@ namespace UniversityProject.Domain.Entities
         
         [JsonIgnore]
         public DateTime? DeletedAt { get; set; }
-        public ICollection<Book> Books { get; set; }
+        public virtual ICollection<Book> Books { get; set; }
     }
 }

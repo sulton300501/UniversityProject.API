@@ -16,6 +16,6 @@ namespace UniversityProject.Domain.Entities
         public DateTime Date {  get; set; }
         public int ApplicationUserId { get; set; }
 
-        public ApplicationUser CreatedBy { get; set; }
+        public virtual ApplicationUser CreatedBy { get; set; }
     }
 }

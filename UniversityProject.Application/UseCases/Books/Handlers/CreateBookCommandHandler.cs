@@ -51,10 +51,14 @@ namespace UniversityProject.Application.UseCases.Books.Handlers
                 AuthorId = request.AuthorId,
                 CountryId = request.CountryId,
                 Year = request.Year,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
                 Description = request.Description,
                 Length = request.Length,
-                PictureUrl = fileName,
+                PictureUrl = "BookImage/"+fileName,
                 Count = request.Count,
+                Author = null,
+                Country = null
             };
 
             await context.Books.AddAsync(data, cancellationToken);

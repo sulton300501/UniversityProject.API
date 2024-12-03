@@ -10,22 +10,15 @@ using UniversityProject.Infrastructure.Persistance;
 
 namespace UniversityProject.Application.UseCases.Authorses.Queries
 {
-    public class GetAllAuthorCommandHandler : IRequestHandler<GetAllAuthorCommand, List<Author>>
+    public class GetAllAuthorCommandHandler(DataContext context)
+        : IRequestHandler<GetAllAuthorCommand, List<Author>>
     {
-
-        private readonly DataContext _context;
-
-        public GetAllAuthorCommandHandler(DataContext context)
-        {
-            _context = context;
-        }
-
         public async Task<List<Author>> Handle(GetAllAuthorCommand request, CancellationToken cancellationToken)
         {
-            var data = await _context.Authors
-                .Include(a => a.Books)
-                .Include(a => a.Country)
-                .ToListAsync();
+            var data = await context.Authors
+                // .Include(a => a.Books)
+                // .Include(a => a.Country)
+                .ToListAsync(cancellationToken);
             return data;
         }
     }

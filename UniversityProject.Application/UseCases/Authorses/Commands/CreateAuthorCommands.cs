@@ -11,12 +11,10 @@ namespace UniversityProject.Application.UseCases.Authorses.Commands
 {
     public class CreateAuthorCommands : IRequest<Author>
     {
-        public string FullName { get; set; }
+        public string? FullName { get; set; }
         public string? Year { get; set; }
         public string BioWikipediya { get; set; }
-       
-      
-
+        
         public IFormFile? Picture { get; set; }
         public int CountryId { get; set; }
     }

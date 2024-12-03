@@ -21,7 +21,7 @@ namespace UniversityProject.Application.UseCases.Reports.Queries
 
         public async Task<List<Report>> Handle(GetAllReportsCommand request, CancellationToken cancellationToken)
         {
-            var data = await _context.Reports.ToListAsync();
+            var data = await _context.Reports.ToListAsync(cancellationToken);
             return data;
         }
     }

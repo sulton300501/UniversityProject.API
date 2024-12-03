@@ -10,32 +10,21 @@ using UniversityProject.Infrastructure.Persistance;
 
 namespace UniversityProject.Application.UseCases.Categories.Handlers
 {
-    public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, Category>
+    public class CreateCategoryCommandHandler(DataContext context)
+        : IRequestHandler<CreateCategoryCommand, Category>
     {
-
-        private readonly DataContext _context;
-
-        public CreateCategoryCommandHandler(DataContext context)
-        {
-            _context = context;
-        }
-
         public async Task<Category> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
             var data = new Category()
             {
                 Name = request.Name,
                 Count = request.Count,
-              
-
-
+                CreatedAt = DateTime.UtcNow
             };
-
-          
-            await _context.Categories.AddAsync(data);
-            await _context.SaveChangesAsync();
-
-
+            
+            await context.Categories.AddAsync(data, cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
+            
             return data;
         }
     }

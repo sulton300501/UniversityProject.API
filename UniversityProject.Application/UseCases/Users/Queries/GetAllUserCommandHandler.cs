@@ -11,8 +11,8 @@ namespace UniversityProject.Application.UseCases.Users.Queries
         public async Task<List<ApplicationUser>> Handle(GetAllUserCommand request, CancellationToken cancellationToken)
         {
             return await context.Users
-                .Include(a => a.Report)
-                .Include(a => a.Country)
+                // .Include(a => a.Report)
+                // .Include(a => a.Country)
                 .ToListAsync(cancellationToken);
         }
     }
